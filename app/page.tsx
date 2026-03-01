@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
+
+const HeroProtein = lazy(() => import("@/components/HeroProtein"));
 import {
   Brain,
   Sparkles,
@@ -119,29 +121,22 @@ export default function Home() {
         className="relative flex min-h-[85vh] flex-col items-center justify-center overflow-hidden px-4 py-20 text-center sm:px-6"
         style={{ backgroundColor: "#0A1929" }}
       >
-        {/* Deep radial glow */}
+        {/* 3D protein structure */}
+        <Suspense fallback={null}>
+          <HeroProtein />
+        </Suspense>
+        {/* Radial glow over protein */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 z-[1]"
           style={{
             background:
-              "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(6,182,212,0.12) 0%, transparent 70%)",
+              "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(6,182,212,0.07) 0%, transparent 70%)",
           }}
-        />
-        {/* Animated grid */}
-        <motion.div
-          className="absolute inset-0 opacity-[0.18]"
-          style={{
-            backgroundImage: `linear-gradient(#06b6d4 1px, transparent 1px),
-                              linear-gradient(90deg, #06b6d4 1px, transparent 1px)`,
-            backgroundSize: "48px 48px",
-          }}
-          animate={{ backgroundPosition: ["0px 0px", "48px 48px"] }}
-          transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
         />
         {/* Bottom fade into page */}
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-background" />
+        <div className="absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-b from-transparent to-background" />
 
-        <div className="relative z-10 max-w-4xl">
+        <div className="relative z-10 max-w-4xl" style={{ zIndex: 10 }}>
           <motion.h1
             className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
             initial={{ opacity: 0, y: 24 }}
@@ -358,9 +353,15 @@ export default function Home() {
       {/* ===== TECHNOLOGY ===== */}
       <section
         id="technology"
-        className="border-t border-primary/10 bg-background-light/50 px-4 py-20 sm:px-6"
+        className="px-4 py-20 sm:px-6"
+        style={{ backgroundColor: "#0A1929" }}
       >
-        <div className="mx-auto max-w-6xl">
+        {/* Subtle radial glow */}
+        <div
+          className="pointer-events-none absolute inset-x-0 h-[600px]"
+          style={{ background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(6,182,212,0.08) 0%, transparent 70%)" }}
+        />
+        <div className="relative mx-auto max-w-6xl">
 
           {/* — Intro banner — */}
           <div className="mx-auto max-w-3xl text-center">
@@ -374,7 +375,7 @@ export default function Home() {
               Technology
             </motion.p>
             <motion.h2
-              className="mt-2 text-3xl font-bold text-primary sm:text-4xl"
+              className="mt-2 text-3xl font-bold text-white sm:text-4xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -383,7 +384,7 @@ export default function Home() {
               How It Works.
             </motion.h2>
             <motion.p
-              className="mt-3 text-base text-primary/60"
+              className="mt-3 text-lg text-white/70"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -393,7 +394,7 @@ export default function Home() {
               structural modeling, and in silico evaluation.
             </motion.p>
             <motion.p
-              className="mt-4 text-sm text-primary/50"
+              className="mt-4 text-base text-white/45"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -442,25 +443,23 @@ export default function Home() {
             ].map((pillar, i) => (
               <motion.div
                 key={pillar.title}
-                className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-primary/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+                className="rounded-2xl p-7 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:ring-accent/40"
+                style={{ backgroundColor: "rgba(255,255,255,0.04)" }}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
               >
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/15">
                   <pillar.icon className="h-6 w-6 text-accent" />
                 </div>
-                <h3 className="mt-4 text-base font-semibold text-primary">
+                <h3 className="mt-4 text-base font-semibold text-white">
                   {pillar.title}
                 </h3>
                 <ul className="mt-4 space-y-2">
                   {pillar.points.map((pt) => (
-                    <li
-                      key={pt}
-                      className="flex items-start gap-2 text-sm text-primary/65"
-                    >
-                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                    <li key={pt} className="flex items-start gap-2 text-sm text-white/55">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent/70" />
                       {pt}
                     </li>
                   ))}
@@ -472,7 +471,7 @@ export default function Home() {
           {/* — Workflow Timeline — */}
           <div className="mt-20">
             <motion.h3
-              className="text-center text-2xl font-bold text-primary sm:text-3xl"
+              className="text-center text-2xl font-bold text-white sm:text-3xl"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -481,7 +480,7 @@ export default function Home() {
               End-to-End Workflow
             </motion.h3>
             <motion.p
-              className="mx-auto mt-3 max-w-xl text-center text-sm text-primary/55"
+              className="mx-auto mt-3 max-w-xl text-center text-sm text-white/45"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -492,7 +491,7 @@ export default function Home() {
 
             <div className="relative mx-auto mt-12 max-w-2xl">
               {/* Vertical line */}
-              <div className="absolute left-[21px] top-0 h-full w-px bg-primary/10 sm:left-[27px]" />
+              <div className="absolute left-[21px] top-0 h-full w-px bg-white/10 sm:left-[27px]" />
 
               <div className="space-y-8">
                 {[
@@ -531,15 +530,13 @@ export default function Home() {
                     transition={{ duration: 0.45, delay: i * 0.1 }}
                   >
                     {/* Step badge */}
-                    <div className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent font-mono text-sm font-bold text-white shadow-sm">
+                    <div className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent font-mono text-sm font-bold text-primary shadow-sm">
                       {s.step}
                     </div>
                     {/* Info bubble */}
-                    <div className="flex-1 rounded-2xl bg-white px-6 py-4 shadow-sm ring-1 ring-primary/5">
-                      <p className="text-sm font-semibold text-primary">
-                        {s.title}
-                      </p>
-                      <p className="mt-1 text-sm text-primary/60">{s.body}</p>
+                    <div className="flex-1 rounded-2xl px-6 py-4 ring-1 ring-white/10" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
+                      <p className="text-sm font-semibold text-white">{s.title}</p>
+                      <p className="mt-1 text-sm text-white/50">{s.body}</p>
                     </div>
                   </motion.div>
                 ))}
