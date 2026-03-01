@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Brain,
@@ -16,6 +17,99 @@ import {
   ShieldPlus,
   Pill,
 } from "lucide-react";
+
+function ContactForm() {
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [form, setForm] = useState({ name: "", email: "", org: "", message: "" });
+
+  const inputClass =
+    "mt-1.5 w-full rounded-lg border border-primary/20 bg-white px-4 py-3 text-primary placeholder:text-primary/50 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20";
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setForm({ name: "", email: "", org: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  if (status === "success") {
+    return (
+      <div className="mt-10 rounded-2xl bg-accent/10 px-6 py-10 text-center ring-1 ring-accent/20">
+        <p className="text-lg font-semibold text-primary">Message sent!</p>
+        <p className="mt-2 text-sm text-primary/60">We&apos;ll be in touch soon.</p>
+        <button
+          onClick={() => setStatus("idle")}
+          className="mt-5 text-sm font-medium text-accent hover:underline"
+        >
+          Send another message
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <form className="mt-10 space-y-4" onSubmit={handleSubmit}>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-primary">Name</label>
+          <input
+            id="name" type="text" required placeholder="Your name"
+            className={inputClass} value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+        </div>
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-primary">Email</label>
+          <input
+            id="email" type="email" required placeholder="you@example.com"
+            className={inputClass} value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
+        </div>
+      </div>
+      <div>
+        <label htmlFor="org" className="block text-sm font-medium text-primary">Organization</label>
+        <input
+          id="org" type="text" placeholder="Company / Institution"
+          className={inputClass} value={form.org}
+          onChange={(e) => setForm({ ...form, org: e.target.value })}
+        />
+      </div>
+      <div>
+        <label htmlFor="message" className="block text-sm font-medium text-primary">Message</label>
+        <textarea
+          id="message" rows={4} required placeholder="How can we collaborate?"
+          className={`${inputClass} resize-none`} value={form.message}
+          onChange={(e) => setForm({ ...form, message: e.target.value })}
+        />
+      </div>
+      {status === "error" && (
+        <p className="text-sm text-red-500">Something went wrong. Please try again.</p>
+      )}
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-base font-semibold text-primary transition-colors hover:bg-accent/90 disabled:opacity-60"
+      >
+        <Send className="h-5 w-5" />
+        {status === "loading" ? "Sending…" : "Send Message"}
+      </button>
+    </form>
+  );
+}
 
 export default function Home() {
   return (
@@ -598,68 +692,7 @@ export default function Home() {
           </motion.p>
 
           {/* Form */}
-          <motion.form
-            className="mt-10 space-y-4"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-primary">
-                  Name
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  className="mt-1.5 w-full rounded-lg border border-primary/20 bg-white px-4 py-3 text-primary placeholder:text-primary/50 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-primary">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  className="mt-1.5 w-full rounded-lg border border-primary/20 bg-white px-4 py-3 text-primary placeholder:text-primary/50 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                  placeholder="you@example.com"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="org" className="block text-sm font-medium text-primary">
-                Organization
-              </label>
-              <input
-                id="org"
-                type="text"
-                className="mt-1.5 w-full rounded-lg border border-primary/20 bg-white px-4 py-3 text-primary placeholder:text-primary/50 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                placeholder="Company / Institution"
-              />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-primary">
-                Message
-              </label>
-              <textarea
-                id="message"
-                rows={4}
-                className="mt-1.5 w-full resize-none rounded-lg border border-primary/20 bg-white px-4 py-3 text-primary placeholder:text-primary/50 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                placeholder="How can we collaborate?"
-              />
-            </div>
-            <button
-              type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3.5 text-base font-semibold text-primary transition-colors hover:bg-accent/90"
-            >
-              <Send className="h-5 w-5" />
-              Send Message
-            </button>
-          </motion.form>
+          <ContactForm />
         </div>
       </section>
 
