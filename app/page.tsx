@@ -133,8 +133,6 @@ export default function Home() {
               "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(6,182,212,0.07) 0%, transparent 70%)",
           }}
         />
-        {/* Bottom fade into page */}
-        <div className="absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-b from-transparent to-background" />
 
         <div className="relative z-10 max-w-4xl" style={{ zIndex: 10 }}>
           <motion.h1
@@ -188,18 +186,6 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
-      {/* Glow divider */}
-      <div className="relative h-px w-full overflow-visible">
-        <div
-          className="absolute left-1/2 top-0 h-px w-2/3 -translate-x-1/2"
-          style={{ background: "linear-gradient(90deg, transparent, #06b6d4, transparent)" }}
-        />
-        <div
-          className="absolute left-1/2 top-0 h-8 w-1/2 -translate-x-1/2 -translate-y-1/2 blur-2xl"
-          style={{ background: "rgba(6,182,212,0.15)" }}
-        />
-      </div>
 
       {/* ----- A2. What We Do ----- */}
       <section className="px-4 py-20 sm:px-6">
@@ -339,9 +325,9 @@ export default function Home() {
                     </div>
                   </div>
                   {/* Back */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-accent p-7 shadow-sm [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                    <h3 className="text-lg font-semibold text-primary">{card.title}</h3>
-                    <p className="mt-3 text-center text-base text-primary/80">{card.description}</p>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl p-7 shadow-sm [backface-visibility:hidden] [transform:rotateY(180deg)]" style={{ backgroundColor: "#112240" }}>
+                    <h3 className="text-lg font-semibold text-white">{card.title}</h3>
+                    <p className="mt-3 text-center text-base text-white/75">{card.description}</p>
                   </div>
                 </div>
               </motion.div>
