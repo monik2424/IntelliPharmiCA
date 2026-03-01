@@ -6,12 +6,8 @@ import { motion } from "framer-motion";
 
 const HeroProtein = lazy(() => import("@/components/HeroProtein"));
 import {
-  Brain,
-  Sparkles,
-  FlaskConical,
   Dna,
   Send,
-  Microscope,
   Network,
   Layers,
   Server,
@@ -843,8 +839,8 @@ export default function Home() {
               © {new Date().getFullYear()} IntelliPharmiCA. All rights reserved.
             </p>
             <div className="flex gap-5 text-xs text-white/40">
-              <a href="#" className="transition-colors hover:text-accent">Privacy Policy</a>
-              <a href="#" className="transition-colors hover:text-accent">Terms of Use</a>
+              <Link href="/privacy" className="transition-colors hover:text-accent">Privacy Policy</Link>
+              <Link href="/terms" className="transition-colors hover:text-accent">Terms of Use</Link>
             </div>
           </div>
         </div>

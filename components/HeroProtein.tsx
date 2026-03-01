@@ -9,7 +9,7 @@ import * as THREE from "three";
 function generateBackbone(count = 38, spread = 3.2) {
   const positions: THREE.Vector3[] = [];
   let pos = new THREE.Vector3(0, 0, 0);
-  let dir = new THREE.Vector3(1, 0.4, 0.3).normalize();
+  const dir = new THREE.Vector3(1, 0.4, 0.3).normalize();
 
   for (let i = 0; i < count; i++) {
     positions.push(pos.clone());
