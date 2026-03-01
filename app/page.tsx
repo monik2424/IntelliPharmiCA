@@ -222,52 +222,131 @@ export default function Home() {
           <div className="mt-14 grid gap-8 sm:grid-cols-3">
             {[
               {
-                icon: Dna,
                 title: "AI Protein Design",
                 description:
                   "Generating novel proteins with desired functions using transformer-based language models.",
+                graphic: (
+                  <div className="w-full rounded-xl bg-primary/[0.04] p-3">
+                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-primary/40">Protein Structure</p>
+                    {/* Protein backbone SVG */}
+                    <svg viewBox="0 0 130 52" fill="none" className="w-full">
+                      {/* Backbone chain */}
+                      <polyline
+                        points="8,38 22,18 36,32 50,12 64,26 78,10 92,24 106,14 120,22"
+                        stroke="#06b6d4" strokeWidth="1.5" strokeLinejoin="round" opacity="0.35"
+                      />
+                      {/* Side chains */}
+                      <line x1="22" y1="18" x2="18" y2="6" stroke="#06b6d4" strokeWidth="1.2" opacity="0.6"/>
+                      <line x1="50" y1="12" x2="46" y2="2"  stroke="#06b6d4" strokeWidth="1.2" opacity="0.6"/>
+                      <line x1="78" y1="10" x2="85" y2="1"  stroke="#06b6d4" strokeWidth="1.2" opacity="0.6"/>
+                      <line x1="36" y1="32" x2="30" y2="44" stroke="#0f172a" strokeWidth="1.2" opacity="0.15"/>
+                      <line x1="64" y1="26" x2="58" y2="38" stroke="#0f172a" strokeWidth="1.2" opacity="0.15"/>
+                      {/* Main chain nodes */}
+                      {([[8,38],[22,18],[36,32],[50,12],[64,26],[78,10],[92,24],[106,14],[120,22]] as [number,number][]).map(([x,y],i) => (
+                        <circle key={i} cx={x} cy={y} r="3.5"
+                          fill={[1,3,5].includes(i) ? "#06b6d4" : "#0f172a"}
+                          opacity={[1,3,5].includes(i) ? 0.9 : 0.12}
+                        />
+                      ))}
+                      {/* Side chain end nodes */}
+                      <circle cx="18" cy="6"  r="2.5" fill="#06b6d4" opacity="0.8"/>
+                      <circle cx="46" cy="2"  r="2.5" fill="#06b6d4" opacity="0.8"/>
+                      <circle cx="85" cy="1"  r="2.5" fill="#06b6d4" opacity="0.8"/>
+                    </svg>
+                    {/* Confidence bar */}
+                    <div className="mt-1 flex items-center gap-2">
+                      <span className="text-[10px] text-primary/40">Model Confidence</span>
+                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-primary/8">
+                        <div className="h-full w-[82%] rounded-full bg-accent/70" />
+                      </div>
+                      <span className="text-[11px] font-semibold text-accent">82%</span>
+                    </div>
+                  </div>
+                ),
               },
               {
-                icon: Brain,
                 title: "Antibody Engineering",
                 description:
                   "Optimizing monoclonal and bispecific antibodies for affinity, specificity, and safety.",
+                graphic: (
+                  <div className="w-full rounded-xl bg-primary/[0.04] p-3">
+                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-primary/40">Candidate AB-07</p>
+                    <div className="space-y-2.5">
+                      {[
+                        { label: "CDR-H3 Score", value: "94.2%", bar: 94 },
+                        { label: "Affinity (KD)", value: "8.3 nM", bar: 78 },
+                        { label: "Dev. Score", value: "87%", bar: 87 },
+                      ].map((row) => (
+                        <div key={row.label}>
+                          <div className="mb-1 flex justify-between text-[10px]">
+                            <span className="text-primary/50">{row.label}</span>
+                            <span className="font-semibold text-accent">{row.value}</span>
+                          </div>
+                          <div className="h-1 overflow-hidden rounded-full bg-primary/8">
+                            <div
+                              className="h-full rounded-full bg-accent/60"
+                              style={{ width: `${row.bar}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ),
               },
               {
-                icon: Microscope,
                 title: "Therapeutic Screening",
                 description:
                   "Evaluating candidates in silico to reduce early-stage failure risk before lab validation.",
+                graphic: (
+                  <div className="w-full rounded-xl bg-primary/[0.04] p-3">
+                    <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-primary/40">Candidate Ranking</p>
+                    <div className="flex h-16 items-end gap-1.5">
+                      {[
+                        { px: 25, label: "C-D" },
+                        { px: 35, label: "C-B" },
+                        { px: 30, label: "C-E" },
+                        { px: 45, label: "C-A" },
+                        { px: 54, label: "C-C", top: true },
+                      ].map((bar) => (
+                        <div key={bar.label} className="flex flex-1 flex-col items-center gap-1">
+                          <div
+                            className={`w-full rounded-t-md ${bar.top ? "bg-accent" : "bg-accent/30"}`}
+                            style={{ height: `${bar.px}px` }}
+                          />
+                          <span className="text-[9px] text-primary/40">{bar.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-2 flex items-center justify-between text-[10px]">
+                      <span className="text-primary/40">5 candidates evaluated</span>
+                      <span className="font-semibold text-accent">Top: C-C ↑</span>
+                    </div>
+                  </div>
+                ),
               },
             ].map((card, i) => (
               <motion.div
                 key={card.title}
-                className="group relative h-52 [perspective:1000px]"
+                className="group relative h-64 [perspective:1000px]"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.12 }}
               >
-                {/* Flip inner */}
                 <div className="relative h-full w-full cursor-pointer transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                   {/* Front */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-white p-8 shadow-sm ring-1 ring-primary/5 transition-shadow duration-300 group-hover:shadow-lg [backface-visibility:hidden]">
-                    <div className="rounded-full bg-accent/10 p-4">
-                      <card.icon className="h-8 w-8 text-accent" />
+                  <div className="absolute inset-0 flex flex-col justify-between rounded-2xl bg-white p-5 shadow-sm ring-1 ring-primary/5 transition-shadow duration-300 group-hover:shadow-lg [backface-visibility:hidden]">
+                    {card.graphic}
+                    <div className="flex items-center justify-between pt-2">
+                      <h3 className="text-base font-semibold text-primary">{card.title}</h3>
+                      <span className="text-[10px] text-primary/30">Hover →</span>
                     </div>
-                    <h3 className="mt-4 text-lg font-semibold text-primary">
-                      {card.title}
-                    </h3>
-                    <p className="mt-1 text-xs text-primary/40">Hover to learn more</p>
                   </div>
                   {/* Back */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-accent p-8 shadow-sm [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                    <h3 className="text-lg font-semibold text-primary">
-                      {card.title}
-                    </h3>
-                    <p className="mt-3 text-center text-sm text-primary/80">
-                      {card.description}
-                    </p>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bg-accent p-7 shadow-sm [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                    <h3 className="text-lg font-semibold text-primary">{card.title}</h3>
+                    <p className="mt-3 text-center text-base text-primary/80">{card.description}</p>
                   </div>
                 </div>
               </motion.div>
