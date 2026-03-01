@@ -439,12 +439,12 @@ export default function Home() {
                 <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent/15">
                   <pillar.icon className="h-6 w-6 text-accent" />
                 </div>
-                <h3 className="mt-4 text-base font-semibold text-white">
+                <h3 className="mt-4 text-lg font-semibold text-white">
                   {pillar.title}
                 </h3>
                 <ul className="mt-4 space-y-2">
                   {pillar.points.map((pt) => (
-                    <li key={pt} className="flex items-start gap-2 text-sm text-white/55">
+                    <li key={pt} className="flex items-start gap-2 text-base text-white/55">
                       <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent/70" />
                       {pt}
                     </li>
@@ -466,7 +466,7 @@ export default function Home() {
               End-to-End Workflow
             </motion.h3>
             <motion.p
-              className="mx-auto mt-3 max-w-xl text-center text-sm text-white/45"
+              className="mx-auto mt-3 max-w-xl text-center text-base text-white/45"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -520,10 +520,16 @@ export default function Home() {
                       {s.step}
                     </div>
                     {/* Info bubble */}
-                    <div className="flex-1 rounded-2xl px-6 py-4 ring-1 ring-white/10" style={{ backgroundColor: "rgba(255,255,255,0.04)" }}>
-                      <p className="text-sm font-semibold text-white">{s.title}</p>
-                      <p className="mt-1 text-sm text-white/50">{s.body}</p>
-                    </div>
+                    <motion.div
+                      className="flex-1 rounded-2xl px-6 py-4 cursor-default"
+                      style={{ border: `1.5px solid ${["#06b6d4","#818cf8","#34d399","#06b6d4","#818cf8"][i]}` }}
+                      initial={{ backgroundColor: "#F8FAFC" }}
+                      whileHover={{ backgroundColor: ["#ecfeff","#ede9fe","#d1fae5","#ecfeff","#ede9fe"][i] }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <p className="text-base font-semibold text-[#0A1929]">{s.title}</p>
+                      <p className="mt-1 text-base text-[#0A1929]/60">{s.body}</p>
+                    </motion.div>
                   </motion.div>
                 ))}
               </div>
@@ -536,7 +542,8 @@ export default function Home() {
       {/* ===== APPLICATIONS ===== */}
       <section
         id="applications"
-        className="border-t border-primary/10 px-4 py-20 sm:px-6"
+        className="px-4 py-20 sm:px-6"
+        style={{ backgroundColor: "#0A1929" }}
       >
         <div className="mx-auto max-w-6xl">
 
@@ -552,7 +559,7 @@ export default function Home() {
               Applications
             </motion.p>
             <motion.h2
-              className="mt-2 text-3xl font-bold text-primary sm:text-4xl"
+              className="mt-2 text-3xl font-bold text-white sm:text-4xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -561,7 +568,7 @@ export default function Home() {
               Solutions.
             </motion.h2>
             <motion.p
-              className="mt-3 text-base text-primary/60"
+              className="mt-3 text-base text-white/60"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -573,7 +580,7 @@ export default function Home() {
 
           {/* — Therapeutic Areas grid — */}
           <motion.h3
-            className="mt-16 text-center text-xl font-semibold text-primary"
+            className="mt-16 text-center text-xl font-semibold text-white"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -615,13 +622,21 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent/10">
-                  <area.icon className="h-6 w-6 text-accent" />
-                </div>
+                <motion.div
+                  className="flex h-12 w-12 items-center justify-center rounded-full"
+                  animate={{
+                    y: [0, -6, 0],
+                    backgroundColor: ["rgba(6,182,212,0.10)", "rgba(10,25,41,0.12)", "rgba(6,182,212,0.10)"],
+                    color: ["#06b6d4", "#0A1929", "#06b6d4"],
+                  }}
+                  transition={{ duration: 2.4, delay: i * 0.4, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <area.icon className="h-6 w-6" style={{ color: "inherit" }} />
+                </motion.div>
                 <h4 className="mt-4 text-base font-semibold text-primary">
                   {area.title}
                 </h4>
-                <p className="mt-2 text-sm text-primary/60">
+                <p className="mt-2 text-base text-primary/60">
                   {area.description}
                 </p>
               </motion.div>
@@ -629,9 +644,9 @@ export default function Home() {
           </div>
 
           {/* — Pipeline Progress Tracker — */}
-          <div className="mt-20">
+          <div className="mx-auto mt-20 max-w-2xl rounded-2xl px-8 py-10" style={{ backgroundColor: "#F8FAFC" }}>
             <motion.h3
-              className="text-center text-xl font-semibold text-primary"
+              className="text-center text-xl font-semibold text-[#0A1929]"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -640,7 +655,7 @@ export default function Home() {
               A Pipeline in Progress
             </motion.h3>
             <motion.p
-              className="mx-auto mt-2 max-w-lg text-center text-sm text-primary/50"
+              className="mx-auto mt-2 max-w-lg text-center text-base text-[#0A1929]/50"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -650,52 +665,63 @@ export default function Home() {
               engagement — ranked therapeutic candidates at each stage.
             </motion.p>
 
-            <div className="mx-auto mt-10 max-w-2xl space-y-10">
+            <div className="mx-auto mt-10 max-w-2xl space-y-8">
               {[
                 {
                   category: "Oncology",
+                  color: "#06b6d4",
                   candidates: [
-                    { label: "Candidate A", percent: 80, phase: "Optimization Phase" },
-                    { label: "Candidate B", percent: 65, phase: "Screening Complete" },
+                    { label: "Candidate A", percent: 80, phase: "Optimization Phase", pillColor: "#f59e0b", pillText: "#78350f" },
+                    { label: "Candidate B", percent: 65, phase: "Screening Complete", pillColor: "#a3e635", pillText: "#365314" },
                   ],
                 },
                 {
                   category: "Immunology",
+                  color: "#818cf8",
                   candidates: [
-                    { label: "Candidate C", percent: 50, phase: "In Silico Evaluation" },
-                    { label: "Candidate D", percent: 35, phase: "Generation Phase" },
+                    { label: "Candidate C", percent: 50, phase: "In Silico Evaluation", pillColor: "#67e8f9", pillText: "#164e63" },
+                    { label: "Candidate D", percent: 35, phase: "Generation Phase", pillColor: "#fda4af", pillText: "#881337" },
                   ],
                 },
                 {
                   category: "Enzyme Therapies",
+                  color: "#34d399",
                   candidates: [
-                    { label: "Candidate E", percent: 95, phase: "Delivery Ready" },
+                    { label: "Candidate E", percent: 95, phase: "Delivery Ready", pillColor: "#86efac", pillText: "#14532d" },
                   ],
                 },
               ].map((group, gi) => (
                 <motion.div
                   key={group.category}
+                  className="border-l-[3px] pl-4"
+                  style={{ borderColor: group.color }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: gi * 0.1 }}
                 >
-                  <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-accent">
+                  <p className="mb-4 text-xs font-semibold uppercase tracking-widest" style={{ color: group.color }}>
                     {group.category}
                   </p>
                   <div className="space-y-5">
                     {group.candidates.map((c, ci) => (
                       <div key={c.label}>
-                        <div className="flex items-center justify-between text-sm font-medium text-primary">
+                        <div className="flex items-center justify-between text-base font-medium text-[#0A1929]">
                           <span>{c.label}</span>
-                          <span className="flex items-center gap-3">
-                            <span className="text-xs text-primary/50">{c.phase}</span>
-                            <span>{c.percent}%</span>
+                          <span className="flex items-center gap-2.5">
+                            <span
+                              className="rounded-full px-2.5 py-0.5 text-[11px] font-semibold"
+                              style={{ backgroundColor: c.pillColor, color: c.pillText }}
+                            >
+                              {c.phase}
+                            </span>
+                            <span className="text-sm font-bold">{c.percent}%</span>
                           </span>
                         </div>
-                        <div className="mt-2 h-2.5 w-full overflow-hidden rounded-full bg-primary/8">
+                        <div className="mt-2 h-2.5 w-full overflow-hidden rounded-full bg-[#0A1929]/8">
                           <motion.div
-                            className="h-full rounded-full bg-accent"
+                            className="h-full rounded-full"
+                            style={{ backgroundColor: group.color }}
                             initial={{ width: 0 }}
                             whileInView={{ width: `${c.percent}%` }}
                             viewport={{ once: true }}
