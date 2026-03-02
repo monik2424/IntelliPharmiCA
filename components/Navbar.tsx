@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 const navLinks = [
   { label: "Technology", id: "technology" },
@@ -48,9 +49,9 @@ export function Navbar() {
         {/* Logo — scrolls to very top, no hash */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="text-xl font-semibold tracking-tight text-primary transition-colors hover:text-accent"
+          className="transition-opacity hover:opacity-80"
         >
-          IntelliPharmiCA
+          <Image src="/logo.png" alt="IntelliPharmiCA logo" width={105} height={39} className="w-auto object-contain" />
         </button>
 
         <ul className="hidden items-center gap-8 md:flex">
